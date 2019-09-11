@@ -1,0 +1,38 @@
+{
+    "name": "ghostiq/flarumtwitter",
+    "description": "Auto post to Twitter.",
+    "type": "flarum-extension",
+    "keywords": ["authentication"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Czarodziej Nocy",
+            "email": "ghostiq@o2.pl"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/ghostiq/flarumtwitter/issues",
+        "source": "https://github.com/ghostiq/flarumtwitter"
+    },
+    "require": {
+        "flarum/core": "^0.1.0-beta.9",
+    },
+    "autoload": {
+        "psr-4": {
+            "Ghostiq\\FlarumTwitter\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        },
+        "flarum-extension": {
+            "title": "Twitter Autopost",
+            "icon": {
+                "name": "fab fa-twitter",
+                "backgroundColor": "#55ADEE",
+                "color": "#fff"
+            }
+        }
+    }
+}

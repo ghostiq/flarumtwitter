@@ -1,0 +1,10 @@
+ghostiq-flarumtwitter:
+    admin:
+        settings:
+            title: Twitter Autopost Settings
+
+            field:
+                consumerAPI: Consumer API
+                consumerAPISecret: Consumer API Secret
+                accessToken: Access Token
+                accessTokenSecret: Access Token Secret
