@@ -14,6 +14,6 @@ return [
     function (Dispatcher $events) {
         $events->subscribe(Listeners\Assets::class);
         $events->subscribe(Listeners\InjectSettings::class);
-        $events->subscribe(Listeners\SendTelegramNotifications::class);
+        $events->subscribe(Listeners\SendTwitterNotificationWhenDiscussionIsStarted::class);
     },
 ];
