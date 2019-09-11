@@ -199,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
 
 flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.initializers.add('ghostiq-flarumtwitter', function () {
   flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.extensionSettings['ghostiq-flarumtwitter'] = function () {
-    return flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.modal.show(new TwitterSettingsModal());
+    return flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.modal.show(new _components_TwitterSettingsModal__WEBPACK_IMPORTED_MODULE_2__["default"]());
   };
 });
 

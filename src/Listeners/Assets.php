@@ -1,6 +1,6 @@
 <?php
 
-namespace Ghostiq\FlarumTelegram\Listeners;
+namespace Ghostiq\FlarumTwitter\Listeners;
 
 use DirectoryIterator;
 use Flarum\Event\ConfigureLocales;
