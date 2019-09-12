@@ -12,19 +12,32 @@
 namespace Ghostiq\FlarumTwitter\Listeners;
 
 use Flarum\Discussion\Event\Started;
-use Flarum\Notification\NotificationSyncer;
 use Flarum\Tags\Tag;
-use Ghostiq\FlarumTwitter\Notifications\TwitterMailer as TwitterMailer;
 use Illuminate\Support\Collection;
 
-//use Flarum\User\User;
-//use Illuminate\Contracts\Events\Dispatcher;
+use Flarum\Settings\SettingsRepositoryInterface;
+use DG\Twitter\Twitter;
+require_once __DIR__ . '/../../twitter-php/src/twitter.class.php';
 
 class SendTwitterNotificationWhenDiscussionIsStarted
 {
-    public function handle(Started $event)
-    {
 
+    protected $twitter;
+
+    public function __construct(SettingsRepositoryInterface $settings)
+    {
+        $consumerAPI = $settings->get('ghostiq-flarumtwitter.consumerAPI');
+        $consumerAPISecret = $settings->get('ghostiq-flarumtwitter.consumerAPISecret');
+        $accessToken = $settings->get('ghostiq-flarumtwitter.accessToken');
+        $accessTokenSecret = $settings->get('ghostiq-flarumtwitter.accessTokenSecret'); 
+        if (!$consumerAPI || !$consumerAPISecret || !$accessToken || !$accessTokenSecret) {
+            throw new Exception('No api or token configured for Twitter');
+        }
+        $this->twitter = new Twitter($consumerAPI, $consumerAPISecret, $accessToken, $accessTokenSecret);
+    }
+    
+    public function handle(Started $event)
+    { 
         $discussion = $event->discussion;
 
         $tags = $discussion->tags;
@@ -33,11 +46,20 @@ class SendTwitterNotificationWhenDiscussionIsStarted
         if ($tags->isEmpty() || !$event->actor->can('viewPrivate', $discussion)) {
             return;
         }
-        $dump = print_r($discussion, true);
-        //mail('ghostiq@o2.pl', 'Test4', 'Z'.$dump.'Z');
-        mail('ghostiq@o2.pl', 'Test51', 'ZZ');
-        $poster = app(TwitterMailer::class);
-        mail('ghostiq@o2.pl', 'Test55', 'ZZ');
-        $poster->send();
+        
+        $test = $tags->find(16);
+        if ($test != null)
+            mail('ghostiq@gmail.com', 'Tagi i ID', $test . 'KONIEC');
+        //$dump = print_r(get_class_methods($tags), true);
+        //$dump1 = print_r($tagIds, true);
+
+        
+        try {
+        	//$tweet = $this->twitter->send('Drugi tweet z flarum https://forum.flyhunter.pl/d/27-blyskawiczne-powiadomienia-z-forum'); // you can add $imagePath or array of image paths as second argument
+        }
+        catch (DG\Twitter\TwitterException $e)
+        {
+        	//echo 'Error: ' . $e->getMessage();
+        }
     }
 }
