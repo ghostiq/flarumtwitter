@@ -54,7 +54,7 @@ class SendTwitterNotificationWhenDiscussionIsStarted
       
         try {
         	//$debug = var_export($this->tagIdToFollow . "\r\n" . $this->tagIdToFollow1 . "\r\n" . $this->urlGenerator->to("forum"), true);
-            //mail('ghostiq@gmail.com', 'Debug', $debug);
+            //mail('mail@example.com', 'Debug', $debug);
             $tweet = $this->twitter->send($discussion->title . ' ' . $this->baseDiscussionUrl . $discussion->id . '-' . $discussion->slug); // you can add $imagePath or array of image paths as second argument            
         }
         catch (DG\Twitter\TwitterException $e)
