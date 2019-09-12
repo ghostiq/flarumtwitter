@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of fof/follow-tags.
- *
- * Copyright (c) 2019 FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
- */
-
 namespace Ghostiq\FlarumTwitter\Listeners;
 
 use Flarum\Discussion\Event\Started;
@@ -17,21 +8,24 @@ use Illuminate\Support\Collection;
 
 use Flarum\Settings\SettingsRepositoryInterface;
 use DG\Twitter\Twitter;
-require_once __DIR__ . '/../../twitter-php/src/twitter.class.php';
 
 class SendTwitterNotificationWhenDiscussionIsStarted
 {
 
     protected $twitter;
+    protected $tagIdToFollow;
+    protected $tagIdToFollow1;    
 
     public function __construct(SettingsRepositoryInterface $settings)
     {
         $consumerAPI = $settings->get('ghostiq-flarumtwitter.consumerAPI');
         $consumerAPISecret = $settings->get('ghostiq-flarumtwitter.consumerAPISecret');
         $accessToken = $settings->get('ghostiq-flarumtwitter.accessToken');
-        $accessTokenSecret = $settings->get('ghostiq-flarumtwitter.accessTokenSecret'); 
-        if (!$consumerAPI || !$consumerAPISecret || !$accessToken || !$accessTokenSecret) {
-            throw new Exception('No api or token configured for Twitter');
+        $accessTokenSecret = $settings->get('ghostiq-flarumtwitter.accessTokenSecret');
+        $this->tagIdToFollow = $settings->get('ghostiq-flarumtwitter.tagIdToFollow');
+        $this->tagIdToFollow1 = $settings->get('ghostiq-flarumtwitter.tagIdToFollow1');
+        if (!$consumerAPI || !$consumerAPISecret || !$accessToken || !$accessTokenSecret || !$this->tagIdToFollow) {
+            throw new Exception('No api or token or tag id to tweet configured for Twitter');
         }
         $this->twitter = new Twitter($consumerAPI, $consumerAPISecret, $accessToken, $accessTokenSecret);
     }
@@ -47,15 +41,19 @@ class SendTwitterNotificationWhenDiscussionIsStarted
             return;
         }
         
-        $test = $tags->find(16);
-        if ($test != null)
-            mail('ghostiq@gmail.com', 'Tagi i ID', $test . 'KONIEC');
-        //$dump = print_r(get_class_methods($tags), true);
-        //$dump1 = print_r($tagIds, true);
-
-        
+        $tagIdFound = $tags->find($this->tagIdToFollow);
+        if ($tagIdFound == null) {
+            if (!$this->tagIdToFollow1)
+                return;
+            $tagIdFound = $tags->find($this->tagIdToFollow1);
+            if ($tagIdFound == null)
+                return;    
+        }
+      
         try {
-        	//$tweet = $this->twitter->send('Drugi tweet z flarum https://forum.flyhunter.pl/d/27-blyskawiczne-powiadomienia-z-forum'); // you can add $imagePath or array of image paths as second argument
+        	$debug = var_export($discussion, true);
+            mail('ghostiq@gmail.com', 'Debug', $discussion);
+            $tweet = $this->twitter->send($discussion->title . ' '); // you can add $imagePath or array of image paths as second argument            
         }
         catch (DG\Twitter\TwitterException $e)
         {

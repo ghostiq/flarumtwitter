@@ -43,6 +43,20 @@ export default class TwitterSettingsModal extends SettingsModal {
                     placeholder: 'Access Token Secret',
                 }),
             ]),
+            m('.Form-group', [
+                m('label', app.translator.trans(translationPrefix + 'field.tagIdToFollow')),
+                m('input.FormControl', {
+                    bidi: this.setting(settingsPrefix + 'tagIdToFollow'),
+                    placeholder: 'Tag id to follow',
+                }),
+            ]),
+            m('.Form-group', [
+                m('label', app.translator.trans(translationPrefix + 'field.tagIdToFollow1')),
+                m('input.FormControl', {
+                    bidi: this.setting(settingsPrefix + 'tagIdToFollow1'),
+                    placeholder: 'Another tag id to follow',
+                }),
+            ]),
         ];
     }
 }

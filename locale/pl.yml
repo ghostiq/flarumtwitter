@@ -8,3 +8,5 @@ ghostiq-flarumtwitter:
                 consumerAPISecret: Consumer API Secret
                 accessToken: Access Token
                 accessTokenSecret: Access Token Secret
+                tagIdToFollow: Identyfikator tagu do tweetowania
+                tagIdToFollow1: Drugi identyfikator tagu do tweetowania
